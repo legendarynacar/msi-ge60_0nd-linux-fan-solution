@@ -2,23 +2,22 @@
 > PS: If you dont wanna hear the story, just jump directly to the [Solution](#solution)
 ## Story
 
-If you land here, you might have struggeled (or still struggling) with MSI Fan issue, which the speed continously increase and decrease and cause disturbing sound, expecially when you wanna be in silent mode in library.
+If you land here, you might have struggeled (or still struggling) with MSI Fan issue, which the speed continously increase and decrease and causes	 disturbing sound, expecially when you wanna be in silent mode in library.
 
 Anyways. At the beginning, I researched about bios update and found one. But could not manage to apply. It may failed due my wrong application and might end up fixing eventually. But at the end I stopped cuz I was bored and was worrying to damage my computer since I could not get a backup at that time.
 
 So I went for software solution. I find out there is one called [RWEverything](http://rweverything.com/) for Windows, which was awesome cuz my main OS was Win.
 
-But eventually, I wanted move to Linux. If any of you tried Only Linux Mod (non dual boot), you might noticed that Wireless and Bluetooth devices wont work after install or later on.And fan boost key as well.They become **hardware lock** and I tried possible way that I found but did not worked. At least that is what happened to me.
+But eventually, I wanted move to Linux. If any of you tried Only Linux Mod (non dual boot), you might noticed that Wireless and Bluetooth devices wont work after install or later on.And fan boost key as well.They become **hardware lock** and I tried every possible way that I found but did not work. At least that is what happened to me.
 
-Finally found tool for it. It is called [NoteBook FanControl aka NBFC](https://github.com/hirschmann/nbfc/) by Her Stefan Hirschmann 
+Finally found a tool for it. It is called [NoteBook FanControl aka NBFC](https://github.com/hirschmann/nbfc/) by Her Stefan Hirschmann 
 > Danke für die Projekt
- 
 
 
 
 
 ## Solution
-My Linux distro is Ubuntu 18.04.1 LTS 64 bit. I can only verify on that. And I should remind you that this following progress is done for myself. You may create you way.
+My Linux distro is Ubuntu 18.04.1 LTS 64 bit. I can only verify on that. And I should remind you that this following progress is done for myself. You may create your way.
 ```bash
 sudo apt-get install git #incase you might not have it
 
@@ -44,9 +43,10 @@ Now, lets fix the fan issue. Before we get into that I should inform you where w
 I do not recall the person but while researching for RWEverything about which section to change, THE PERSON told that
 >On MSI GE60 0ND, the issue is being caused by Row 70, Col 02. It needs to be 30 but in BIOS, MSI left it 29.
 
-So for me, that section is fixing my problem. I hope it does for you as well. If it is not and you are not sure where to fix it, research about it.
+So for me, that section is fixing my problem. I hope it does for you as well. If it is not and you are not sure which section is might for you, definitely research about it. You dont wanna break your system.
 
 **ec-probe.exe --help**
+
 ![](ec-probe-help.png)
 
 ```bash
@@ -56,7 +56,7 @@ mono ec-probe.exe dump #to analyze current data
 
 Registers are numbered from left to right and starts from 0.
 Our register is on 7th row and 3rd column; `16*7+2` = `114`
-> to be sure, first use read to verify if it is the correct register. Do +3 & -3 as range to be sure.
+> To be sure, first use read to verify if it is the correct register. Do +3 & -3 as range to be sure.
 
 ```bash
 sudo mono ec-probe.exe read 114 #to read certain location
@@ -77,6 +77,8 @@ sudo mono ec-probe.exe write 114 0x30 #to write certain value
 ## Conclusion
 
 I am happy to have silence. Thanks for both RWEverythink and NBFC.
+
+I think it is possible to make a batch and/or bash script to apply the patch each startup of your system, since NBFC is also available for windows & linux and has command line support. Tho imo it may bring security problems cuz you need to run `sudo` several times. You may change the owner so only root can edit the script but still, I prefer to run it manually. Everone has their choices :)
 
 I *WISH* all computer manufacturers design their products to support fully Linux in near future...
 
