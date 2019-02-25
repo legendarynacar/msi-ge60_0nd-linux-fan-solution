@@ -7,9 +7,9 @@ if [ "$(id -nu)" != "root" ]; then
 	exit;
 fi
 if [ "$(id -nu)" == "root" ]; then
-	cd Linux/bin/Release
+	cd ../nbfc/Linux/bin/Release
 	sudo mono ec-probe.exe read 114
-	sudo mono ec-probe.exe 114 0x30
+	sudo mono ec-probe.exe write 114 0x30
 	sudo mono ec-probe.exe dump
 
 	echo ===== FAN IS FIXED =====
